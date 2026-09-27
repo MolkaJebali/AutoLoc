@@ -9,135 +9,151 @@
 
 ---
 
-## 🎓 Cadre Académique & Présentation de la Matière
+## 🎓 Cadre Académique & Contexte du Projet
 
 * **Établissement** : [ESPRIT](https://esprit.tn/) (École Supérieure Privée d'Ingénierie et de Technologies)
 * **Unité Pédagogique** : **UP ASI** — Architecture des Systèmes d'Information
 * **Niveau** : 4ᵉ Année Ingénieur Informatique (Année 26-27)
 * **Étudiante** : **Molka Jebali**
-* **Module** : **Architecture des Systèmes d'Information (ASI)**
+* **Matière** : **Architecture des Systèmes d'Information (ASI)**
 
-### Objectifs d'Apprentissage des Ateliers 1 & 2
-Le module d'**Architecture des Systèmes d'Information** vise à doter les futurs ingénieurs des compétences requises pour concevoir des architectures applicatives robustes, évolutives et modulaires en environnement d'entreprise. 
+### Présentation de la Matière
+Le module d'**Architecture des Systèmes d'Information** a pour vocation de former les élèves-ingénieurs à la conception, l'urbanisation et l'implémentation de systèmes logiciels d'entreprise robustes, scalables et maintenables. 
 
-Dans ce cadre, les **Ateliers 1 & 2** posent le socle fondamental du projet fil rouge **AutoLoc** :
-1. **Initialisation technique** : Démarrage d'une application Spring Boot et structuration d'un projet d'entreprise avec Maven.
-2. **Couche de Persistance & JPA** : Configuration de la connectivité avec MySQL, gestion du cycle de vie des entités et configuration de la génération DDL d'Hibernate (`ddl-auto=update`).
-3. **Clean Code & Bonnes Pratiques** :
-   * Utilisation ciblée des annotations Lombok (`@Getter`, `@Setter`, `@NoArgsConstructor`, `@AllArgsConstructor`) en proscrivant `@Data` sur les entités de domaine afin d'anticiper les pièges de récursivité infinie (`equals`/`hashCode`/`toString`) lors de l'intégration des futures relations bidirectionnelles.
-   * Définition rigoureuse des contraintes de schéma (unicité, nullabilité, précisions numériques, typages énumérés stricts).
-4. **Modélisation de Domaine** : Mise en place complète des 9 entités de domaine du système d'information de location automobile avant l'étape de modélisation des associations complexes (relations, cascade, fetch de l'Atelier 2).
-
----
-
-## 📌 Présentation du Projet : AutoLoc
-
-**AutoLoc** est une solution logicielle d'architecture orientée services (API REST & Persistance JPA) dédiée à la numérisation complète de l'activité d'une agence moderne de location de véhicules :
-* Gestion de flotte de véhicules (statut de disponibilité, tarification journalière, catégorisation).
-* Gestion des clients et des permis de conduire.
-* Suivi des réservations et validation des contrats.
-* Gestion des paiements (modes carte, espèces, virement).
-* Planification et traçabilité des opérations de maintenance de la flotte.
-* Administration du personnel (agents et managers) et des agences réparties sur le réseau.
+À travers des travaux pratiques progressifs et un fil conducteur professionnalisant, ce cours approfondit :
+* Les patrons d'architecture logicielle (*Layered Architecture*, séparation des responsabilités, Clean Code).
+* L'ingénierie de la persistance relationnelle avec JPA / Hibernate.
+* L'implémentation de couches d'accès aux données déclaratives (Spring Data).
+* La gestion transactionnelle et l'encapsulation de la logique métier (Services).
+* La conception d'interfaces de programmation modernes (API RESTful, DTOs, validations de flux).
 
 ---
 
-## 🏗️ Architecture et Arborescence du Projet
+## 📌 Vision Globale du Projet : AutoLoc
 
-Le projet suit une organisation en couches logiques (*Layered Architecture*) conforme aux standards Spring d'entreprise :
+**AutoLoc** est le projet fil rouge développé tout au long des ateliers de la matière. Il s'agit d'une application backend d'entreprise complète dédiée à l'automatisation et à la gestion globale d'un réseau d'agences de location de véhicules.
+
+### Périmètre Fonctionnel
+* **Gestion du parc automobile** : cycle de vie des véhicules (statuts : disponible, loué, en maintenance), typologie (citadine, berline, SUV, utilitaire), caractéristiques techniques et tarification.
+* **Gestion de la clientèle** : profil client, coordonnées, validation des permis de conduire et historique de fidélité.
+* **Réservations & Contrats** : workflow de réservation (en attente, confirmée, annulée, terminée) et contractualisation avec calcul automatique des montants.
+* **Gestion des paiements** : encaissement multi-modes (carte bancaire, espèces, virement) et traçabilité financière.
+* **Suivi de maintenance** : planification des révisions, réparations et immobilisation temporaire des véhicules.
+* **Organisation du réseau** : gestion multi-agences et affectation des employés (agents de comptoir, managers).
+
+---
+
+## 🏗️ Architecture Technique Globale
+
+Le projet repose sur une architecture en couches étanches (*Multi-Tier / Layered Architecture*), garantissant une haute cohésion et un faible couplage :
 
 ```text
 tn.esprit.autoloc
-├── domain                     # Entités JPA du modèle de domaine & Énumérations
-│   ├── Agence.java            # Entité Agence
-│   ├── Client.java            # Entité Client (avec contraintes d'unicité email & permis)
-│   ├── Contrat.java           # Entité Contrat de location
-│   ├── Employe.java           # Entité Employé
-│   ├── Equipement.java        # Entité Équipement optionnel
-│   ├── Maintenance.java       # Entité Maintenance technique
-│   ├── Paiement.java          # Entité Transaction de paiement
-│   ├── Reservation.java       # Entité Réservation de véhicule
-│   ├── Vehicule.java          # Entité Véhicule (première entité socle)
-│   │
-│   ├── CategorieVehicule.java # Enum (CITADINE, BERLINE, SUV, UTILITAIRE)
-│   ├── ModePaiement.java      # Enum (CARTE, ESPECES, VIREMENT)
-│   ├── RoleEmploye.java       # Enum (AGENT, MANAGER)
-│   ├── StatutReservation.java # Enum (EN_ATTENTE, CONFIRMEE, ANNULEE, TERMINEE)
-│   └── StatutVehicule.java    # Enum (DISPONIBLE, LOUE, MAINTENANCE)
+├── domain                     # Entités du modèle métier JPA & Énumérations
+│   ├── Agence.java
+│   ├── Client.java
+│   ├── Contrat.java
+│   ├── Employe.java
+│   ├── Equipement.java
+│   ├── Maintenance.java
+│   ├── Paiement.java
+│   ├── Reservation.java
+│   ├── Vehicule.java
+│   └── [Enums : CategorieVehicule, StatutVehicule, RoleEmploye, StatutReservation, ModePaiement]
 │
 ├── repository                 # Couche d'accès aux données (Spring Data JPA)
-│   └── VehiculeRepository.java# Interface d'accès aux entités Véhicule
+│   └── Interfaces Repository (requêtes dérivées, JPQL, pagination)
 │
-├── service                    # Couche Métier (logique applicative - Ateliers ultérieurs)
-├── web.controller             # Contrôleurs REST (exposition des endpoints - Ateliers ultérieurs)
-├── web.dto                    # Data Transfer Objects (transfert et découplage API)
+├── service                    # Couche Métier (Règles applicatives & Transactions)
+│   ├── Interfaces de service & Implémentations métier
+│   └── Gestion des exceptions métier personnalisées
 │
-├── AutolocApiApplication.java # Classe principale d'amorçage Spring Boot
-└── DataInitializer.java       # CommandLineRunner d'insertion des données de démonstration
+├── web.controller             # Couche d'exposition REST (Endpoints HTTP)
+│   ├── Contrôleurs REST, routage et négociation de contenu
+│   └── Gestionnaires d'erreurs globaux (@ControllerAdvice)
+│
+├── web.dto                    # Data Transfer Objects (DTO) & Mappers
+│   └── Objets de transfert découplés pour l'API publique
+│
+└── config / util              # Configurations transverses (Sécurité, profils, CORS)
 ```
 
 ---
 
-## 📊 Modèle de Données & Entités Réalisées
+## 🗺️ Feuille de Route Évolutive des Ateliers (Roadmap)
 
-Conformément au sujet de l'Atelier 1 et du travail préparatoire de l'Atelier 2, l'ensemble des **9 entités** a été créé dans le package `domain` sans associations préalables (afin de construire les relations collectivement en séance 3) :
+Le développement d'AutoLoc se déploie de façon itérative tout au long des ateliers pratiques :
 
-| # | Entité | Clé Primaire (`@Id`) | Attributs & Types | Énumérations associées |
-|---|--------|---------------------|-------------------|------------------------|
-| **1** | **Vehicule** | `idVehicule` (Long, Auto) | `immatriculation` (unique), `marque`, `modele`, `tarifJournalier` (BigDecimal 10,2) | `CategorieVehicule`, `StatutVehicule` |
-| **2** | **Agence** | `idAgence` (Long, Auto) | `nom`, `ville`, `adresse`, `telephone` | — |
-| **3** | **Client** | `idClient` (Long, Auto) | `nom`, `prenom`, `email` (unique), `telephone`, `numPermis` (unique), `dateInscription` (LocalDate) | — |
-| **4** | **Employe** | `idEmploye` (Long, Auto) | `nom`, `prenom` | `RoleEmploye` (`AGENT`, `MANAGER`) |
-| **5** | **Equipement** | `idEquipement` (Long, Auto) | `libelle` | — |
-| **6** | **Reservation** | `idReservation` (Long, Auto) | `dateDebut` (LocalDate), `dateFin` (LocalDate) | `StatutReservation` (`EN_ATTENTE`, `CONFIRMEE`, `ANNULEE`, `TERMINEE`) |
-| **7** | **Contrat** | `idContrat` (Long, Auto) | `dateSignature` (LocalDate), `montantTotal` (BigDecimal), `valide` (Boolean) | — |
-| **8** | **Paiement** | `idPaiement` (Long, Auto) | `montant` (BigDecimal), `datePaiement` (LocalDate) | `ModePaiement` (`CARTE`, `ESPECES`, `VIREMENT`) |
-| **9** | **Maintenance** | `idMaintenance` (Long, Auto) | `dateDebut` (LocalDate), `dateFin` (LocalDate), `description` (String) | — |
+```mermaid
+flowchart LR
+    A["Ateliers 0-1\nSocle & Première Entité"] --> B["Atelier 2\nAssociations & Relations"]
+    B --> C["Atelier 3\nSpring Data JPA Avancé"]
+    C --> D["Atelier 4\nCouche Service & Métier"]
+    D --> E["Atelier 5\nContrôleurs RESTful"]
+    E --> F["Atelier 6\nDTOs & Validation"]
+```
 
----
-
-## ⚙️ Configuration & Environnement
-
-### 1. Fichier `application.properties`
-* **Base de données** : MySQL / MariaDB sur le port `3306`.
-* **Création automatique de la base** : `createDatabaseIfNotExist=true` inclus dans l'URL JDBC (`autoloc_db`).
-* **Sécurité du mot de passe** : paramétré via variable d'environnement avec valeur de repli locale (`${DB_PASSWORD:}`).
-* **Port d'écoute** : `8081` par défaut (`${PORT:8081}`) pour garantir l'absence de conflit d'affectation réseau avec d'autres services locaux (ex: Oracle TNS Listener sur 8080).
-* **Génération automatique du schéma** : `spring.jpa.hibernate.ddl-auto=update`.
-* **Traces SQL** : logs au niveau `DEBUG` pour observer le requêtage DDL & DML émis par Hibernate.
-
-### 2. Profil de Développement (`application-dev.properties`) *(Fonctionnalité Bonus)*
-Un profil d'environnement distinct `dev` est mis à disposition pour un niveau de verbosité accru et une flexibilité de test.
+| Phase / Atelier | Thématique Principale | Objectifs & Livrables Clés |
+|-----------------|------------------------|----------------------------|
+| **Atelier 0 & 1** | **Fondations & Démarrage Spring Boot** | Initialisation de l'architecture Maven, configuration de la datasource MySQL, stratégie DDL Hibernate (`update`), première entité socle (`Vehicule`), mise en place des standards Clean Code et Lombok. |
+| **Atelier 2** | **Modélisation Avancée des Associations** | Intégration des relations JPA (`@ManyToOne`, `@OneToMany`, `@ManyToMany`), gestion des clés étrangères, stratégies de cascade (`CascadeType`) et d'optimisation de chargement (`FetchType`). |
+| **Atelier 3** | **Persistance Avancée & Repositories** | Implémentation des interfaces `JpaRepository`, requêtes dérivées par convention de nommage, requêtes JPQL / SQL natives via `@Query`, pagination et tri. |
+| **Atelier 4** | **Logique Métier & Couche Service** | Encapsulation des règles métier au sein des services Spring (`@Service`), gestion transactionnelle déclarative (`@Transactional`), contrôle de cohérence et exceptions métier. |
+| **Atelier 5** | **Exposition RESTful & Contrôleurs** | Construction des endpoints d'API REST (`@RestController`), manipulation des verbes HTTP (GET, POST, PUT, DELETE), codes statuts HTTP standards et gestion d'erreurs centralisée. |
+| **Atelier 6** | **DTOs, Mapping & Sécurisation** | Découplage complet via DTOs (`Record` / classes DTO), bibliothèques de mapping automatique, validation fine des entrées utilisateur (`@Valid`, Bean Validation) et documentation d'API. |
 
 ---
 
-## 🚀 Insertion Automatique de Données de Démonstration *(Fonctionnalité Bonus)*
+## 📊 Modèle de Domaine Fondateur
 
-Un composant **`DataInitializer`** implémentant `CommandLineRunner` est intégré. Au démarrage, il vérifie l'état de la table `vehicule` et injecte automatiquement 3 véhicules de test si la base est vierge :
-* 🚗 **Renault Clio 5** (`234-TN-5678`) — Catégorie : *CITADINE*, Tarif : 90.00 DT/jour, Statut : *DISPONIBLE*.
-* 🚙 **Peugeot 3008** (`235-TN-1234`) — Catégorie : *SUV*, Tarif : 160.00 DT/jour, Statut : *DISPONIBLE*.
-* 🚘 **Volkswagen Passat** (`236-TN-9876`) — Catégorie : *BERLINE*, Tarif : 190.00 DT/jour, Statut : *MAINTENANCE*.
+Le cœur métier d'AutoLoc s'articule autour des entités pivots suivantes :
+
+* **Vehicule** : identification (`immatriculation`), marque, modèle, catégorie, tarif journalier et statut.
+* **Client** : identité complète, coordonnées de contact, numéro de permis de conduire unique et date d'inscription.
+* **Contrat** : formalisation légale de la location, date d'accord, montant total et état de validation.
+* **Reservation** : planification temporelle (date début, date fin) et statut d'avancement.
+* **Agence** : point de service physique (nom, localisation, adresse et téléphone).
+* **Employe** : collaborateur rattaché aux agences avec profil de droits (Agent, Manager).
+* **Equipement** : options complémentaires associables aux véhicules (GPS, siège bébé, etc.).
+* **Maintenance** : interventions de réparation et contrôles techniques périodiques.
+* **Paiement** : règlement des locations avec montant, date et mode transactionnel.
 
 ---
 
-## 🛠️ Instructions d'Exécution & Démarrage
+## ⚙️ Environnement & Configuration Technique
 
-### Prérequis
-* **JDK 17+** installé et configuré (`java -version`).
-* **SGBD MySQL / MariaDB** (via XAMPP, WAMP ou service MySQL dédié) en cours d'exécution sur le port `3306`.
+* **Langage & Plateforme** : Java 17+ (LTS)
+* **Framework principal** : Spring Boot
+* **ORM & Persistance** : Spring Data JPA, Hibernate ORM
+* **Base de données** : MySQL / MariaDB (Driver : `com.mysql:mysql-connector-j`)
+* **Productivité & Clean Code** : Project Lombok (annotations ciblées `@Getter`, `@Setter`, etc.)
+* **Outil de Build** : Maven avec son Wrapper (`mvnw`)
+* **Gestion des Profils** :
+  * `application.properties` : configuration globale et d'environnement par défaut.
+  * `application-dev.properties` : profil de développement avec niveau de verbosité accru.
 
-### Lancer l'Application
-Cloner le dépôt et exécuter à la racine :
+---
 
+## 🚀 Guide de Démarrage Rapide
+
+### 1. Prérequis
+* JDK 17 ou supérieur installé (`java -version`).
+* Serveur MySQL / MariaDB accessible sur `localhost:3306`.
+
+### 2. Cloner et Lancer le Projet
 ```bash
-# Sous Windows (Invite de commandes ou PowerShell)
+# Cloner le dépôt
+git clone https://github.com/MolkaJebali/AutoLoc.git
+cd AutoLoc
+
+# Démarrer avec le Maven Wrapper (Windows)
 .\mvnw.cmd spring-boot:run
 
-# Sous Linux / macOS
+# Démarrer avec le Maven Wrapper (Linux / macOS)
 ./mvnw spring-boot:run
 ```
 
-### Compiler et empaqueter le JAR exécutable :
+### 3. Compilation et Packaging
 ```bash
 .\mvnw.cmd clean package -DskipTests
 java -jar target/autoloc-api-0.0.1-SNAPSHOT.jar
@@ -145,8 +161,9 @@ java -jar target/autoloc-api-0.0.1-SNAPSHOT.jar
 
 ---
 
-## 📜 Historique Git & Conformité aux Livrables
+## 👩‍💻 Auteure & Informations Académiques
 
-Le dépôt est versionné et synchronisé sur GitHub conformément aux étapes du guide de l'atelier :
-* **Commit 1** : `Atelier 1 : init projet Spring Boot + entite Vehicule`
-* **Commit 2** : `Prepa Atelier 2 : entites restantes sans associations`
+* **Étudiante** : **Molka Jebali**
+* **Classe** : 4ᵉ Année — UP ASI (Architecture des Systèmes d'Information)
+* **Établissement** : ESPRIT — Année Universitaire 2026-2027
+* **Dépôt Officiel** : [https://github.com/MolkaJebali/AutoLoc](https://github.com/MolkaJebali/AutoLoc)
