@@ -184,24 +184,10 @@ L'application intègre **SpringDoc OpenAPI 3** (`springdoc-openapi-starter-webmv
 | | `PUT` | `/api/agences/{id}` | Mettre à jour une agence |
 | | `DELETE` | `/api/agences/{id}` | Supprimer une agence |
 
-### Collection Postman :
-Le fichier [`Autoloc_Postman_Collection.json`](./Autoloc_Postman_Collection.json) est prêt à être importé dans **Postman** ou **CoolRequest** pour validation.
 
----
-
-## 📸 Captures d'Écran des Endpoints (Postman / Swagger / CoolRequest)
-
-Toutes les captures d'écran des tests d'endpoints (opérations CRUD : `GET`, `POST`, `PUT`, `DELETE` pour `Véhicules`, `Clients`, `Agences`) sont enregistrées dans le dossier [`captures_ecran/`](./captures_ecran/) :
-
-* 🌐 **Galerie Interactive HTML** : Ouvrez [`captures_ecran/index.html`](./captures_ecran/index.html) dans votre navigateur pour visualiser toutes les captures avec filtres et lightbox.
-* 📦 **Postman** : Dossier [`captures_ecran/postman/`](./captures_ecran/postman/) (15 captures avec requêtes, statuts `200/201/204` et corps JSON)
-* 📖 **Swagger UI** : Dossier [`captures_ecran/swagger/`](./captures_ecran/swagger/) (15 captures d'exécution Swagger + aperçu général)
-* ⚡ **CoolRequest** : Dossier [`captures_ecran/coolrequest/`](./captures_ecran/coolrequest/) (15 captures IntelliJ IDEA avec plugin CoolRequest)
-
----
 
 ## 👩‍💻 Auteure
 
-* **Molka Jebali** — Étudiante en 4ᵉ Année Ingénieur Informatique (UP ASI)
+* **Molka Jebali** — Étudiante en 4ᵉ Année Ingénieur DS
 * **ESPRIT** — Année Universitaire 2026-2027
 * **Dépôt GitHub** : [https://github.com/MolkaJebali/AutoLoc](https://github.com/MolkaJebali/AutoLoc)
