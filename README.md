@@ -153,8 +153,50 @@ cd AutoLoc
 ### 3. Compilation et Packaging du JAR Exécutable
 ```bash
 .\mvnw.cmd clean package -DskipTests
-java -jar target/autoloc-api-0.0.1-SNAPSHOT.jar
+java -jar target/Autoloc-0.0.1-SNAPSHOT.jar
 ```
+
+---
+
+## 📖 Documentation Swagger UI & Endpoints REST
+
+L'application intègre **SpringDoc OpenAPI 3** (`springdoc-openapi-starter-webmvc-ui:2.8.5`).
+
+* **Swagger UI** : [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
+* **OpenAPI JSON Spec** : [http://localhost:8082/v3/api-docs](http://localhost:8082/v3/api-docs)
+
+### Endpoints exposés :
+| Entité | Méthode | URI | Description |
+|---|---|---|---|
+| **Véhicules** | `GET` | `/api/vehicules` | Liste de tous les véhicules |
+| | `GET` | `/api/vehicules/{id}` | Détail d'un véhicule par ID |
+| | `POST` | `/api/vehicules` | Ajouter un véhicule |
+| | `PUT` | `/api/vehicules/{id}` | Mettre à jour un véhicule |
+| | `DELETE` | `/api/vehicules/{id}` | Supprimer un véhicule |
+| **Clients** | `GET` | `/api/clients` | Liste de tous les clients |
+| | `GET` | `/api/clients/{id}` | Détail d'un client par ID |
+| | `POST` | `/api/clients` | Ajouter un client |
+| | `PUT` | `/api/clients/{id}` | Mettre à jour un client |
+| | `DELETE` | `/api/clients/{id}` | Supprimer un client |
+| **Agences** | `GET` | `/api/agences` | Liste de toutes les agences |
+| | `GET` | `/api/agences/{id}` | Détail d'une agence par ID |
+| | `POST` | `/api/agences` | Ajouter une agence |
+| | `PUT` | `/api/agences/{id}` | Mettre à jour une agence |
+| | `DELETE` | `/api/agences/{id}` | Supprimer une agence |
+
+### Collection Postman :
+Le fichier [`Autoloc_Postman_Collection.json`](./Autoloc_Postman_Collection.json) est prêt à être importé dans **Postman** ou **CoolRequest** pour validation.
+
+---
+
+## 📸 Captures d'Écran des Endpoints (Postman / Swagger / CoolRequest)
+
+Toutes les captures d'écran des tests d'endpoints (opérations CRUD : `GET`, `POST`, `PUT`, `DELETE` pour `Véhicules`, `Clients`, `Agences`) sont enregistrées dans le dossier [`captures_ecran/`](./captures_ecran/) :
+
+* 🌐 **Galerie Interactive HTML** : Ouvrez [`captures_ecran/index.html`](./captures_ecran/index.html) dans votre navigateur pour visualiser toutes les captures avec filtres et lightbox.
+* 📦 **Postman** : Dossier [`captures_ecran/postman/`](./captures_ecran/postman/) (15 captures avec requêtes, statuts `200/201/204` et corps JSON)
+* 📖 **Swagger UI** : Dossier [`captures_ecran/swagger/`](./captures_ecran/swagger/) (15 captures d'exécution Swagger + aperçu général)
+* ⚡ **CoolRequest** : Dossier [`captures_ecran/coolrequest/`](./captures_ecran/coolrequest/) (15 captures IntelliJ IDEA avec plugin CoolRequest)
 
 ---
 

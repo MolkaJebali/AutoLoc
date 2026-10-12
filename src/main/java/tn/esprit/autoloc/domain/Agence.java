@@ -21,6 +21,10 @@ public class Agence {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAgence;
 
+    public Agence(@com.fasterxml.jackson.annotation.JsonProperty("idAgence") Long idAgence) {
+        this.idAgence = idAgence;
+    }
+
     @Column(nullable = false, length = 100)
     private String nom;
 
@@ -34,8 +38,10 @@ public class Agence {
     private String telephone;
 
     @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Employe> employes = new ArrayList<>();
 
     @OneToMany(mappedBy = "agence")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Vehicule> vehicules = new ArrayList<>();
 }

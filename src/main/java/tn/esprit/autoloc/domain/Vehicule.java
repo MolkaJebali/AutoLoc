@@ -44,9 +44,11 @@ public class Vehicule {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_agence")
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"employes", "vehicules", "hibernateLazyInitializer", "handler"})
     private Agence agence;
 
     @OneToMany(mappedBy = "vehicule", cascade = CascadeType.ALL)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Maintenance> maintenances = new ArrayList<>();
 
     @ManyToMany
@@ -55,9 +57,11 @@ public class Vehicule {
         joinColumns = @JoinColumn(name = "id_vehicule"),
         inverseJoinColumns = @JoinColumn(name = "id_equipement")
     )
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"vehicules", "hibernateLazyInitializer", "handler"})
     private List<Equipement> equipements = new ArrayList<>();
 
     @OneToMany(mappedBy = "vehicule")
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Reservation> reservations = new ArrayList<>();
 
     public Vehicule(Long idVehicule, String immatriculation, String marque, String modele,

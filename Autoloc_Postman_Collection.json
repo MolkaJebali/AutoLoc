@@ -1,0 +1,281 @@
+{
+	"info": {
+		"_postman_id": "a4d78b88-5c42-4f01-9f76-80927958b123",
+		"name": "AutoLoc API Collection - Atelier 1-2",
+		"description": "Collection Postman complète pour tester les endpoints REST CRUD (Véhicules, Clients, Agences) du projet AutoLoc avec SpringDoc OpenAPI.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8082",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "🏢 Agences",
+			"item": [
+				{
+					"name": "1. GET All Agences",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/agences",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "agences"]
+						},
+						"description": "Récupère toutes les agences enregistrées."
+					}
+				},
+				{
+					"name": "2. POST Add Agence",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nom\": \"AutoLoc Tunis Centre\",\n    \"ville\": \"Tunis\",\n    \"adresse\": \"15 Avenue Habib Bourguiba\",\n    \"telephone\": \"+216 71 123 456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/agences",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "agences"]
+						},
+						"description": "Ajoute une nouvelle agence."
+					}
+				},
+				{
+					"name": "3. GET Agence By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/agences/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "agences", "1"]
+						},
+						"description": "Récupère les détails d'une agence par son identifiant."
+					}
+				},
+				{
+					"name": "4. PUT Update Agence",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idAgence\": 1,\n    \"nom\": \"AutoLoc Tunis Centre Ville\",\n    \"ville\": \"Tunis\",\n    \"adresse\": \"20 Avenue Habib Bourguiba\",\n    \"telephone\": \"+216 71 999 888\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/agences/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "agences", "1"]
+						},
+						"description": "Met à jour une agence existante."
+					}
+				},
+				{
+					"name": "5. DELETE Agence By ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/agences/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "agences", "1"]
+						},
+						"description": "Supprime une agence par son identifiant."
+					}
+				}
+			]
+		},
+		{
+			"name": "👤 Clients",
+			"item": [
+				{
+					"name": "1. GET All Clients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/clients",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "clients"]
+						},
+						"description": "Récupère la liste de tous les clients."
+					}
+				},
+				{
+					"name": "2. POST Add Client",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nom\": \"Ben Salem\",\n    \"prenom\": \"Yassine\",\n    \"email\": \"yassine.bensalem@esprit.tn\",\n    \"telephone\": \"+216 98 765 432\",\n    \"numPermis\": \"TN-2023-88991\",\n    \"dateInscription\": \"2026-01-15\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/clients",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "clients"]
+						},
+						"description": "Ajoute un nouveau client."
+					}
+				},
+				{
+					"name": "3. GET Client By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/clients/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "clients", "1"]
+						},
+						"description": "Récupère les informations d'un client par son identifiant."
+					}
+				},
+				{
+					"name": "4. PUT Update Client",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idClient\": 1,\n    \"nom\": \"Ben Salem\",\n    \"prenom\": \"Yassine Mohamed\",\n    \"email\": \"yassine.bensalem@esprit.tn\",\n    \"telephone\": \"+216 98 111 222\",\n    \"numPermis\": \"TN-2023-88991\",\n    \"dateInscription\": \"2026-01-15\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/clients/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "clients", "1"]
+						},
+						"description": "Met à jour un client existant."
+					}
+				},
+				{
+					"name": "5. DELETE Client By ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/clients/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "clients", "1"]
+						},
+						"description": "Supprime un client par son identifiant."
+					}
+				}
+			]
+		},
+		{
+			"name": "🚗 Véhicules",
+			"item": [
+				{
+					"name": "1. GET All Véhicules",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/vehicules",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vehicules"]
+						},
+						"description": "Récupère tous les véhicules enregistrés."
+					}
+				},
+				{
+					"name": "2. POST Add Véhicule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"immatriculation\": \"240-TN-7788\",\n    \"marque\": \"Volkswagen\",\n    \"modele\": \"Golf 8\",\n    \"categorie\": \"BERLINE\",\n    \"tarifJournalier\": 120.50,\n    \"statut\": \"DISPONIBLE\",\n    \"agence\": {\n        \"idAgence\": 1\n    }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/vehicules",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vehicules"]
+						},
+						"description": "Ajoute un nouveau véhicule avec son agence associée."
+					}
+				},
+				{
+					"name": "3. GET Véhicule By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/vehicules/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vehicules", "1"]
+						},
+						"description": "Récupère un véhicule par son ID."
+					}
+				},
+				{
+					"name": "4. PUT Update Véhicule",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idVehicule\": 1,\n    \"immatriculation\": \"210-TN-1234\",\n    \"marque\": \"Renault\",\n    \"modele\": \"Clio 5 Intens\",\n    \"categorie\": \"CITADINE\",\n    \"tarifJournalier\": 95.00,\n    \"statut\": \"LOUE\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/vehicules/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vehicules", "1"]
+						},
+						"description": "Met à jour un véhicule existant."
+					}
+				},
+				{
+					"name": "5. DELETE Véhicule By ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/vehicules/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vehicules", "1"]
+						},
+						"description": "Supprime un véhicule par son identifiant."
+					}
+				}
+			]
+		}
+	]
+}
