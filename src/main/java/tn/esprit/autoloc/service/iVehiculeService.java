@@ -11,4 +11,11 @@ public interface iVehiculeService {
     Vehicule retrieveVehicule(Long idVehicule);
     void removeVehicule(Long idVehicule);
     List<Vehicule> addVehicules(List<Vehicule> vehicules);
+
+    // Scénario : rattachement d'un véhicule à une agence (@ManyToOne)
+    Vehicule affecterVehicule(Long idVehicule, Long idAgence);
+
+    // Scénario siège bébé : gestion équipements optionnels (@ManyToMany)
+    Vehicule affecterEquipement(Long idVehicule, Long idEquipement);
+    Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement);
 }

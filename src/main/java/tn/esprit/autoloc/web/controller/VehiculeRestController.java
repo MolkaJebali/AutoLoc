@@ -112,4 +112,67 @@ public class VehiculeRestController {
         vehiculeService.removeVehicule(id);
         return ResponseEntity.noContent().build();
     }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Scénario : rattachement d'un véhicule à une agence (@ManyToOne)
+    // ─────────────────────────────────────────────────────────────────────────
+
+    @Operation(
+        summary = "Affecter un véhicule à une agence",
+        description = "Scénario : un véhicule neuf arrive et est rattaché à l'agence " +
+                      "désignée. Met à jour la clé étrangère id_agence dans la table véhicule."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Véhicule affecté avec succès"),
+            @ApiResponse(responseCode = "404", description = "Véhicule ou agence introuvable")
+    })
+    @PutMapping("/{idVehicule}/affecter/{idAgence}")
+    public ResponseEntity<Vehicule> affecterVehicule(
+            @Parameter(description = "ID du véhicule à rattacher", required = true, example = "1")
+            @PathVariable Long idVehicule,
+            @Parameter(description = "ID de l'agence cible", required = true, example = "2")
+            @PathVariable Long idAgence) {
+        return ResponseEntity.ok(vehiculeService.affecterVehicule(idVehicule, idAgence));
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Scénario siège bébé : gestion des équipements optionnels (@ManyToMany)
+    // ─────────────────────────────────────────────────────────────────────────
+
+    @Operation(
+        summary = "Affecter un équipement à un véhicule",
+        description = "Scénario siège bébé : l'agent installe l'équipement sur le " +
+                      "véhicule avant le départ du client. Insère une ligne dans la " +
+                      "table de jointure vehicule_equipement."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Équipement ajouté au véhicule avec succès"),
+            @ApiResponse(responseCode = "404", description = "Véhicule ou équipement introuvable")
+    })
+    @PutMapping("/{idVehicule}/affecter-equipement/{idEquipement}")
+    public ResponseEntity<Vehicule> affecterEquipement(
+            @Parameter(description = "ID du véhicule", required = true, example = "1")
+            @PathVariable Long idVehicule,
+            @Parameter(description = "ID de l'équipement à installer", required = true, example = "1")
+            @PathVariable Long idEquipement) {
+        return ResponseEntity.ok(vehiculeService.affecterEquipement(idVehicule, idEquipement));
+    }
+
+    @Operation(
+        summary = "Désaffecter un équipement d'un véhicule",
+        description = "Scénario siège bébé : l'agent retire l'équipement au retour du " +
+                      "client. Supprime la ligne correspondante dans vehicule_equipement."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Équipement retiré du véhicule avec succès"),
+            @ApiResponse(responseCode = "404", description = "Véhicule ou équipement introuvable")
+    })
+    @DeleteMapping("/{idVehicule}/desaffecter-equipement/{idEquipement}")
+    public ResponseEntity<Vehicule> desaffecterEquipement(
+            @Parameter(description = "ID du véhicule", required = true, example = "1")
+            @PathVariable Long idVehicule,
+            @Parameter(description = "ID de l'équipement à retirer", required = true, example = "1")
+            @PathVariable Long idEquipement) {
+        return ResponseEntity.ok(vehiculeService.desaffecterEquipement(idVehicule, idEquipement));
+    }
 }
