@@ -14,6 +14,85 @@
 	],
 	"item": [
 		{
+			"name": "👨‍💼 Employés",
+			"item": [
+				{
+					"name": "1. GET All Employés",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/employes",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "employes"]
+						},
+						"description": "Récupère la liste complète des employés."
+					}
+				},
+				{
+					"name": "2. POST Add Employé",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nom\": \"Jebali\",\n    \"prenom\": \"Molka\",\n    \"role\": \"AGENT\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/employes",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "employes"]
+						},
+						"description": "Crée un employé sans agence (pour tester la mutation ensuite)."
+					}
+				},
+				{
+					"name": "3. GET Employé By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/employes/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "employes", "1"]
+						},
+						"description": "Vérifie l'état de l'employé (agence courante)."
+					}
+				},
+				{
+					"name": "4. PUT Désaffecter Employé (Étape 1 mutation)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/employes/1/desaffecter",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "employes", "1", "desaffecter"]
+						},
+						"description": "Scénario RH – étape 1 : retire l'employé de son agence courante (id_agence → NULL). Obligatoire avant toute mutation car un employé n'appartient qu'à une seule agence."
+					}
+				},
+				{
+					"name": "5. PUT Affecter Employé → Agence Tunis (Étape 2 mutation)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/employes/1/affecter/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "employes", "1", "affecter", "1"]
+						},
+						"description": "Scénario RH – étape 2 : rattache l'employé à l'agence de Tunis (id=1). Résultat attendu : champ agence non-null dans la réponse JSON."
+					}
+				}
+			]
+		},
+		{
 			"name": "🏢 Agences",
 			"item": [
 				{
@@ -273,6 +352,45 @@
 							"path": ["api", "vehicules", "1"]
 						},
 						"description": "Supprime un véhicule par son identifiant."
+					}
+				},
+				{
+					"name": "6. PUT Affecter Véhicule → Agence Sfax",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/vehicules/1/affecter/2",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vehicules", "1", "affecter", "2"]
+						},
+						"description": "Scénario : un véhicule neuf arrive et est rattaché à l'agence de Sfax (id=2). Met à jour la FK id_agence dans la table vehicule."
+					}
+				},
+				{
+					"name": "7. PUT Affecter Équipement → Véhicule (Siège bébé installation)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/vehicules/1/affecter-equipement/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vehicules", "1", "affecter-equipement", "1"]
+						},
+						"description": "Scénario siège bébé – installation : l'agent installe l'équipement (id=1) sur le véhicule (id=1) avant le départ du client. Insère une ligne dans vehicule_equipement."
+					}
+				},
+				{
+					"name": "8. DELETE Désaffecter Équipement ← Véhicule (Siège bébé retrait)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/vehicules/1/desaffecter-equipement/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vehicules", "1", "desaffecter-equipement", "1"]
+						},
+						"description": "Scénario siège bébé – retrait : l'agent retire l'équipement au retour du client. Supprime la ligne dans vehicule_equipement."
 					}
 				}
 			]
