@@ -37,3 +37,8 @@ node_modules/
 package-lock.json
 package.json
 scripts/
+
+### Postman local app data ###
+.postman/
+postman/
+AutoLoc API Collection - Atelier 1-2/
