@@ -18,4 +18,7 @@ public interface iVehiculeService {
     // Scénario siège bébé : gestion équipements optionnels (@ManyToMany)
     Vehicule affecterEquipement(Long idVehicule, Long idEquipement);
     Vehicule desaffecterEquipement(Long idVehicule, Long idEquipement);
+
+    // Atelier 6 - Scénario 1 : Recherche de véhicules par marque
+    List<Vehicule> retrieveVehiculesByMarque(String marque);
 }

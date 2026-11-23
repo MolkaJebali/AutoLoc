@@ -2,6 +2,7 @@ package tn.esprit.autoloc.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import tn.esprit.autoloc.domain.CategorieVehicule;
 import tn.esprit.autoloc.domain.StatutVehicule;
@@ -56,6 +57,18 @@ public interface VehiculeRepository extends JpaRepository<Vehicule, Long> {
 
     // Scénario 11 : Rechercher les véhicules d'une marque donnée ET ayant le statut DISPONIBLE
     List<Vehicule> findByMarqueAndStatut(String marque, StatutVehicule statut);
+
+    // ==========================================
+    // Atelier JPQL – Jointures & Fonctions d'agrégation
+    // ==========================================
+
+    // Afficher les véhicules appartenant à une agence donnée
+    @Query("SELECT v FROM Vehicule v WHERE v.agence.idAgence = :idAgence")
+    List<Vehicule> getVehiculesByAgence(@Param("idAgence") Long idAgence);
+
+    // Compter le nombre de véhicules de chaque agence
+    @Query("SELECT v.agence.nom, count(v) FROM Vehicule v GROUP BY v.agence.nom")
+    List<Object[]> countVehiculesByAgence();
 }
 
 

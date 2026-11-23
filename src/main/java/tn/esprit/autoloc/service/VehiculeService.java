@@ -93,4 +93,12 @@ public class VehiculeService implements iVehiculeService {
         vehicule.getEquipements().remove(equipement);
         return vehiculeRepo.save(vehicule);
     }
+
+    /**
+     * Atelier 6 - Scénario 1 : Recherche de véhicules par marque précise.
+     */
+    @Override
+    public List<Vehicule> retrieveVehiculesByMarque(String marque) {
+        return vehiculeRepo.findByMarque(marque);
+    }
 }

@@ -175,4 +175,23 @@ public class VehiculeRestController {
             @PathVariable Long idEquipement) {
         return ResponseEntity.ok(vehiculeService.desaffecterEquipement(idVehicule, idEquipement));
     }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Atelier 6 : Recherche de véhicules par marque
+    // ─────────────────────────────────────────────────────────────────────────
+
+    @Operation(
+        summary = "Rechercher des véhicules par marque",
+        description = "Scénario 1 : retourne tous les véhicules correspondant exactement à la marque renseignée (ex: Renault, Peugeot, Volkswagen)."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Liste des véhicules trouvés avec succès")
+    })
+    @GetMapping({"/by-marque/{marque}", "/find-by-marque/{marque}"})
+    public ResponseEntity<List<Vehicule>> getVehiculesByMarque(
+            @Parameter(description = "Marque du véhicule à rechercher", required = true, example = "Renault")
+            @PathVariable("marque") String marque) {
+        List<Vehicule> vehicules = vehiculeService.retrieveVehiculesByMarque(marque);
+        return ResponseEntity.ok(vehicules);
+    }
 }

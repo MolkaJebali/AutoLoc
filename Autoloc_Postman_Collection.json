@@ -392,6 +392,19 @@
 						},
 						"description": "Scénario siège bébé – retrait : l'agent retire l'équipement au retour du client. Supprime la ligne dans vehicule_equipement."
 					}
+				},
+				{
+					"name": "9. GET Véhicules By Marque (Atelier 6)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/vehicules/by-marque/Renault",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "vehicules", "by-marque", "Renault"]
+						},
+						"description": "Atelier 6 - Scénario 1 : recherche de tous les véhicules ayant une marque précise (ex: Renault)."
+					}
 				}
 			]
 		}
